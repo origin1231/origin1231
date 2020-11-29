@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+	<!-- resultype 패키지명 미리 등록 -->
+		<package name="com.web.domain"/>
+		<!-- <typeAlias type="com.web.domain" alias="BoardVO"/> -->
+	</typeAliases>
+
+</configuration>
