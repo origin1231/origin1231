@@ -36,4 +36,10 @@ public class HomeController {
 		return "home";
 	}
 	
+	// Ajax 테스트
+	@RequestMapping(value="/test", method = RequestMethod.GET)
+	public void ajaxTest() {
+		
+	}
+	
 }
