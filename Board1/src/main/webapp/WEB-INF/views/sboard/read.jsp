@@ -8,6 +8,7 @@
 </head>
 <body>
 <%@ include file="../include/header.jsp" %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 <section class="content">
 	<div class="row">
 		<!-- left column -->
@@ -76,6 +77,26 @@
 		</div>	<!--/.col (left) -->
 	</div>	<!-- /.row -->
 </section>	<!-- /.content -->
+
+<script id="template" type="text/x-handlebars-template">
+{{#each .}}
+<li class="replyLi" data-rno={{rno}}>
+<i class="fa fa-comments bg-blue"></i>
+ <div class="timeline-item" >
+  <span class="time">
+    <i class="fa fa-clock-o"></i>{{prettifyDate regdate}}
+  </span>
+  <h3 class="timeline-header"><strong>{{rno}}</strong> -{{replyer}}</h3>
+  <div class="timeline-body">{{replytext}} </div>
+    <div class="timeline-footer">
+     <a class="btn btn-primary btn-xs" 
+	    data-toggle="modal" data-target="#modifyModal">Modify</a>
+    </div>
+  </div>			
+</li>
+{{/each}}
+</script>
+
 </div>	<!-- /.content-wrapper -->
 
 <%@include file="../include/footer.jsp"%>
