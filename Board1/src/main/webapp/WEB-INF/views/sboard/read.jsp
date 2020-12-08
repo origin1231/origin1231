@@ -63,7 +63,7 @@
 				<div class="box-body">
 					<label for="exampleInputWriter">Writer</label>
 					<input class="form-control" type="text" placeholder="USER ID" id="newReplyWriter">
-					<label for="exampleInputWriter">Reply Text</label>
+					<label for="exampleInputText">Reply Text</label>
 					<input class="form-control" type="text" placeholder="REPLY TEXT" id="newReplyText">
 				</div>
 				<div class="box-footer">
@@ -216,8 +216,8 @@ $(document).ready(function(){
 		var replyerObj = $("#newReplyWriter");
 		var replytextObj = $("#newReplyText");
 		var replyer = replyerObj.val();
-		var replyertext = replytextObj.val();
-	
+		var replytext = replytextObj.val();
+		
 		$.ajax({
 			type:"post",
 			url:"/replies/",
@@ -226,7 +226,7 @@ $(document).ready(function(){
 				"X-HTTP-Method-Override":"POST"
 				},
 			dataType:"text",
-			data:JSON.stringify({bno:bno,replyer:replyer,replytext:replytext}),
+			data:JSON.stringify({bno:bno, replyer:replyer, replytext:replytext}),
 			success:function(result){
 				console.log("result =>"+ result);
 				if(result == "SUCCESS"){
@@ -241,7 +241,7 @@ $(document).ready(function(){
 		});	
 	});
 
-	$(".timeline").on("click",".replyLi",function(){
+	$(".timeline").on("click",".replyLi",function(event){
 		var reply = $(this);
 
 		$("#replytext").val(reply.find(".timeline-body").text());
@@ -255,7 +255,7 @@ $(document).ready(function(){
 		var replytext = $("#replytext").val();
 
 		$.ajax({
-			type:'PUT',
+			type:'put',
 			url:"/replies/"+rno,
 			headers:{
 				"Content-Type":"application/json",
@@ -263,7 +263,7 @@ $(document).ready(function(){
 				},
 			data:JSON.stringify({replytext:replytext}),
 			dataType:"text",
-			succcess:function(result){
+			success:function(result){
 				console.log("result:"+result);
 				if(result == "SUCCESS"){
 					alert("댓글이 수정되었습니다.");
@@ -286,7 +286,7 @@ $(document).ready(function(){
 				"X-HTTP-Method-Overrude1":"DELETE"
 				},
 			dataType:"text",
-			succcess:function(result){
+			success:function(result){
 				console.log("result:"+result);
 				if(result == "SUCCESS"){
 					alert("댓글이 삭제되었습니다.");
