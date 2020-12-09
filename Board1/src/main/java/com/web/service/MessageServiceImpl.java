@@ -3,6 +3,7 @@ package com.web.service;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.web.domain.MessageVO;
 import com.web.persistence.MessageDAO;
@@ -17,7 +18,7 @@ public class MessageServiceImpl implements MessageService {
 	@Inject
 	private PointDAO pointDAO;
 	
-	
+	@Transactional
 	@Override
 	public void addMessage(MessageVO vo) throws Exception {
 		

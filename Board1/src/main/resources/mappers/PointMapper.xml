@@ -5,6 +5,7 @@
 <mapper namespace="com.web.mappers.PointMapper">
 	
 	<update id="updatePoint">
+	/** updatePoint */
 	update tbl_user
 	set upoint= upoint + #{point} 
 	where uid = #{uid}
