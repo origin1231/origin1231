@@ -73,7 +73,10 @@
 			
 			<!-- The time line -->
 			<ul class="timeline">
-				<li class="time-label" id="repliesDiv"><span class="bg-green">Replies List</span></li>
+				<li class="time-label" id="repliesDiv">
+					<span class="bg-green">Replies List
+						<small id=replycntSmall>[ ${boardVO.replycnt} ]</small>
+					</span></li>
 			</ul>
 			
 			<div class="text-center">
@@ -176,7 +179,8 @@ $(document).ready(function(){
 			printData(data.list,$("#repliesDiv"),$("#template"));
 			printPaging(data.pageMaker,$(".pagination"));
 			$("#modifyModal").modal("hide");
-			
+			// 댓글 삭제, 추가시 전체 댓글수 바로 반영되도록 추가
+			$("#replycntSmall").html("[ "+ data.pageMaker.totalCount +" ]");
 		});
 	}
 
