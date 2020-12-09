@@ -91,5 +91,14 @@ insert into tbl_user(uid, upw, uname) values ('user01','user01','캡틴아메리
 insert into tbl_user(uid, upw, uname) values ('user02','user02','토르');
 insert into tbl_user(uid, upw, uname) values ('user03','user03','타노스');
 
-
 commit;
+
+-- 카운트 컬럼 추가
+alter table tbl_board add column replycnt int default 0;
+
+select *
+from tbl_message
+;
+
+select *
+from tbl_user;
