@@ -22,13 +22,16 @@ import com.web.service.ReplyService;
 @RestController
 @RequestMapping("/replies")
 public class ReplyController {
+	
 	@Inject
 	private ReplyService service;
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public ResponseEntity<String> register(@RequestBody ReplyVO vo) {
 		ResponseEntity<String> entity = null;
+		System.out.println("reply register before ==>");
 		try {
+			System.out.println("reply register ==>");
 			service.addReply(vo);
 			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);	// 200
 		} catch (Exception e) {
