@@ -1,13 +1,18 @@
 package com.web.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.web.util.MediaUtils;
+import com.web.util.UploadFileUtils;
 
 @Controller
 public class UploadController {
@@ -73,6 +81,43 @@ public class UploadController {
 		logger.info("contentType: " +file.getContentType());
 		
 		// 리소스가 정상적으로 생성되었다는 의미
-		return new ResponseEntity<String>(file.getOriginalFilename(), HttpStatus.CREATED);
+		return new ResponseEntity<String>(UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes()), HttpStatus.CREATED);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/displayFile")
+	public ResponseEntity<byte[]> displayFile(String fileName) throws Exception {
+		InputStream in = null;
+		ResponseEntity<byte[]> entity = null;
+		
+		logger.info("File NAME:" + fileName);
+		
+		try {
+			String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
+			
+			MediaType mType = MediaUtils.getMedaiType(formatName);
+			
+			HttpHeaders headers = new HttpHeaders();
+			
+			in = new FileInputStream(uploadPath + fileName);
+			
+			if(mType != null) {
+				headers.setContentType(mType);
+			}else {
+				fileName = fileName.substring(fileName.indexOf("_")+1);
+				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+				headers.add("Content-Disposition", "attachment; filename=\""
+				+ new String(fileName.getBytes("UTF-8"),"IST-8859-1")+"\"");
+			}
+			
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in),
+					headers, HttpStatus.CREATED);
+		}catch(Exception e) {
+			System.out.println("displayFile error =>"+e);
+			entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+		}finally {
+			in.close();
+		}
+			return entity;
 	}
 }
