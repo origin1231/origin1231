@@ -94,7 +94,7 @@ public class UploadController {
 		
 		try {
 			String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
-			
+			// 파일 이름에서 확장자를 추출하고 이미지 타입의 파일인 경우 적절한 MIME 타입 지정
 			MediaType mType = MediaUtils.getMedaiType(formatName);
 			
 			HttpHeaders headers = new HttpHeaders();
@@ -104,12 +104,15 @@ public class UploadController {
 			if(mType != null) {
 				headers.setContentType(mType);
 			}else {
+				// 이미지 파일 아닌 경우 
 				fileName = fileName.substring(fileName.indexOf("_")+1);
+				// 다운로드시 사용자에게 보이는 파일의 이름을 한글인 경우 꺠지지 않도록 인코딩 처리 
 				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 				headers.add("Content-Disposition", "attachment; filename=\""
-				+ new String(fileName.getBytes("UTF-8"),"IST-8859-1")+"\"");
+				+ new String(fileName.getBytes("UTF-8"),"ISO-8859-1")+"\"");
 			}
-			
+			// 실제로 데이터 읽는 부분 commons 라이브러리 기능을 활용해서 대상 파일에서 데이터를 
+			// 읽어내는 IOUtils.toByteArray()
 			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in),
 					headers, HttpStatus.CREATED);
 		}catch(Exception e) {
@@ -120,4 +123,26 @@ public class UploadController {
 		}
 			return entity;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/deleteFile", method = RequestMethod.POST)
+	public ResponseEntity<String> deleteFile(String fileName){
+		
+		logger.info("delete file: " + fileName);
+		
+		String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
+		
+		MediaType mType = MediaUtils.getMedaiType(formatName);
+		
+		if(mType != null) { // 이미지 파일인 경우 썸네일 이름
+			String front = fileName.substring(0,12);
+			String end = fileName.substring(14);
+			new File(uploadPath + (front + end).replace('/', File.separatorChar)).delete();
+		}
+		// 이미지 아닌 경우 실제 이름
+		new File(uploadPath + fileName.replace('/', File.separatorChar)).delete();
+		
+		return new ResponseEntity<String>("deleted", HttpStatus.OK);
+	}
+	
 }
