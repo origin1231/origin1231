@@ -96,6 +96,21 @@ commit;
 -- 카운트 컬럼 추가
 alter table tbl_board add column replycnt int default 0;
 
+-- 파일첨부테이블 추가
+create table tbl_attach(
+	fullName varchar(150), 
+    bno int not null,
+    regdate timestamp default now(),
+    primary key(fullName)
+);
+
+alter table tbl_attach add constraint fk_board_attach
+foreign key (bno) references tbl_board (bno);
+
+select *
+from tbl_attach;
+
+
 select *
 from tbl_message
 ;
