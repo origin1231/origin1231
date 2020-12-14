@@ -123,4 +123,11 @@
 	where bno = #{bno}
 	</update>
 	
+	<insert id="addAttach">
+	insert into tbl_attach(fullName, bno) values (#{fullName}, LAST_INSERT_ID())
+	</insert>
+	
+	<select id="getAttach" resultType="string">
+	select fullname from tbl_attach where bno = #{bno} order by regdate
+	</select>
 </mapper>  

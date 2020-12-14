@@ -1,5 +1,7 @@
 package com.web.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -7,13 +9,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.web.domain.BoardVO;
-import com.web.domain.Criteria;
 import com.web.domain.PageMaker;
 import com.web.domain.SearchCriteria;
 import com.web.service.BoardService;
@@ -105,5 +108,11 @@ public class SearchBoardController {
 		//return "/board/success";
 		// 등록완료후 새로고침시 글이 계속 등록되는 현상 막기위해 리다이렉트 시킴
 		return "redirect:/sboard/list";
+	}
+	
+	@RequestMapping("/getAttach/{bno}")
+	@ResponseBody
+	public List<String> getAttach(@PathVariable("bno")Integer bno) throws Exception {
+		return service.getAttach(bno);
 	}
 }
