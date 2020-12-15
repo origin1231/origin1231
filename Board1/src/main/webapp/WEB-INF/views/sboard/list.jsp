@@ -19,7 +19,7 @@
 			<!-- general form elements -->
 			<div class="box">
 				<div class="box-header with-border">
-					<h3 class="box-title">LISTPAGE</h3>
+					<h3 class="box-title">Board List</h3>
 				</div>
 				<div class="box-body">
 					<select name="searchType">
@@ -133,10 +133,12 @@
 		</div>	<!-- col (left) -->
 	</div>	<!-- row -->
 </section>	<!-- content -->
+<!-- 
 <form id="jobForm">
 	<input type="hidden" name="page" value=${pageMaker.cri.page}>
 	<input type="hidden" name="perPageNum" value=${pageMaker.cri.perPageNum}>
 </form>
+ -->
 
 <script type="text/javascript">
 	var result ='${msg}';

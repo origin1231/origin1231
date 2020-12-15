@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.web.domain.BoardVO;
@@ -40,13 +41,28 @@ public class BoardServiceImpl implements BoardService {
 		return dao.read(bno);
 	}
 
+	@Transactional
 	@Override
 	public void modify(BoardVO board) throws Exception {
 		dao.update(board);
+		
+		Integer bno = board.getBno();
+		
+		dao.deleteAttach(bno);
+		
+		String[] files = board.getFiles();
+		
+		if(files == null) { return; }
+		
+		for(String fileName : files) {
+			dao.replaceAttach(fileName, bno);
+		}
 	}
 
+	@Transactional
 	@Override
 	public void remove(Integer bno) throws Exception {
+		dao.deleteAttach(bno);
 		dao.delete(bno);
 	}
 

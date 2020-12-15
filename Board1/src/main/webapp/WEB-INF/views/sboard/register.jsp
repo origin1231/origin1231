@@ -121,7 +121,7 @@ $("#registerForm").submit(function(event){
 
 	var str = "";
 	$(".uploadedList .delbtn").each(function(index){
-		str += "<input type='hidden' name=files["+index+"]' value='"+$(this).attr("href")+"'>";
+		str += "<input type='hidden' name='files["+index+"]' value='"+$(this).attr("href")+"'>";
 	});
 
 	that.append(str);
