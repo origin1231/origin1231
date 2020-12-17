@@ -33,6 +33,23 @@
 	    </beans:constructor-arg>
   	</beans:bean>
   
+  	<!-- 인터셉터 설정 -->
+  	<beans:bean id="sampleInterceptor" class="com.web.interceptor.SampleInterceptor"></beans:bean>
+  	<beans:bean id="loginInterceptor" class="com.web.interceptor.LoginInterceptor"></beans:bean>
+  	
+  	<interceptors>
+  		<interceptor>
+  			<mapping path="/doA"/>
+  			<mapping path="/doB"/>
+  			<beans:ref bean="sampleInterceptor"/>
+  		</interceptor>
+  		
+  		<interceptor>
+  			<mapping path="/user/loginPost"/>
+  			<beans:ref bean="loginInterceptor"/>
+  		</interceptor>
+  	</interceptors>
+  	
 	<context:component-scan base-package="com.web.controller" />
 	
 	
