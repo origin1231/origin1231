@@ -48,5 +48,7 @@
 	<context:component-scan base-package="com.web.persistence"></context:component-scan>
 	<context:component-scan base-package="com.web.service"></context:component-scan>
 	<context:component-scan base-package="com.web.aop"></context:component-scan>
-		
+	
+	<aop:config>
+	</aop:config>	
 </beans>

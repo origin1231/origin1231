@@ -28,7 +28,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 
 		      logger.info("new login success");
 		      session.setAttribute(LOGIN, userVO);
-		      response.sendRedirect("/");
+		      //response.sendRedirect("/");
+		      
+		      Object dest = session.getAttribute("dest");
+		      
+		      response.sendRedirect(dest != null ? (String) dest : "/");
 		}
 	}
 	
@@ -37,6 +41,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 			throws Exception {
 		
 		HttpSession session = request.getSession();
+		
+		logger.info("preHandle====>");
 		
 		if(session.getAttribute(LOGIN) != null) {
 			logger.info("clear login data before");
