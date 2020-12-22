@@ -40,7 +40,7 @@
 						<div class="form-group">
 							<label for="exampleInputWriter1">Writer</label>
 							<input type="text" name="writer" class="form-control"
-							 placeholder="Enter Writer">
+							 value="${login.uid}" readonly="readonly">
 						</div>
 						
 						<div class="form-group">

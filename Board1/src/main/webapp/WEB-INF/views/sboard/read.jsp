@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -62,11 +64,17 @@
 					</div>
 				</div>
 				
-				<ul class="mailbox-attachments clearfix uploadedList"></ul>
-				
 				<div class="box-footer">
+				
+					<div><hr></div>
+				<ul class="mailbox-attachments clearfix uploadedList">
+				</ul>
+				
+				<!-- 로그인한 아이디와 작성자가 동일한 경우에만 글 수정 삭제 가능하도록 추가 -->
+				<c:if test="${login.uid == boardVO.writer}">
 					<button type="submit" class="btn btn-warning modifyBtn" id="modifyBtn">Modify</button>
 					<button type="submit" class="btn btn-danger removeBtn" id="removeBtn">Remove</button>
+				</c:if>	
 					<button type="submit" class="btn btn-primary" id="goListBtn">Go List</button>
 				</div>
 			</div> <!-- /.box -->
@@ -81,15 +89,24 @@
 				<div class="box-header">
 					<h3 class="box-title">ADD NEW REPLY</h3>
 				</div>
+				<c:if test="${not empty login}">
 				<div class="box-body">
 					<label for="exampleInputWriter">Writer</label>
-					<input class="form-control" type="text" placeholder="USER ID" id="newReplyWriter">
+					<input class="form-control" type="text" placeholder="USER ID" id="newReplyWriter"
+						   value="${login.uid}" readonly="readonly">
 					<label for="exampleInputText">Reply Text</label>
 					<input class="form-control" type="text" placeholder="REPLY TEXT" id="newReplyText">
 				</div>
 				<div class="box-footer">
-					<button type="button" class="btn btn-primary" id="replyAddBtn">ADD REPLY</button>
+					<button type="submit" class="btn btn-primary" id="replyAddBtn">ADD REPLY</button>
 				</div>
+				</c:if>
+				<!-- 로그인 하지 않은 경우 -->
+				<c:if test="${empty login}">
+				<div class="box-body">
+					<div><a href="javascript:goLogin();">Login Please</a></div>
+				</div>
+				</c:if>
 			</div>
 			
 			<!-- The time line -->
@@ -151,8 +168,10 @@
   <h3 class="timeline-header"><strong>{{rno}}</strong> -{{replyer}}</h3>
   <div class="timeline-body">{{replytext}} </div>
     <div class="timeline-footer">
+	{{#eqReplyer replyer}}
      <a class="btn btn-primary btn-xs" 
 	    data-toggle="modal" data-target="#modifyModal">Modify</a>
+	{{/eqReplyer}}
     </div>
   </div>			
 </li>
@@ -243,6 +262,15 @@ $(document).ready(function(){
 </script>
 
 <script type="text/javascript">
+	// 댓글은 작성자가 로그인 한경우에만 수정가능하도록
+	Handlebars.registerHelper("eqReplyer",function(replyer, block){
+		var accum = '';
+		if(replyer == "${login.uid}"){
+			accum += block.fn();
+		}
+		return accum;
+	});
+
 	Handlebars.registerHelper("prettifyDate",function(timeValue){
 		var dateObj = new Date(timeValue);
 		var year = dateObj.getFullYear();
@@ -387,7 +415,10 @@ $(document).ready(function(){
 			}
 		});
 	});
-		
+
+function goLogin(){
+	self.location ="/user/login";
+}	
 </script>
 
 </div>	<!-- /.content-wrapper -->
