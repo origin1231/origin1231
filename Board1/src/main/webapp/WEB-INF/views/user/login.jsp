@@ -14,6 +14,10 @@
 <link href="/resources/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />    
 <!-- iCheck -->
 <link href="/resources/plugins/iCheck/square/blue.css" rel="stylesheet" type="text/css" />
+
+<script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="/resources/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
+
 </head>
 <body class="login-page">
 <div class="login-box">
@@ -49,5 +53,28 @@
 <a href="#">I forgot my password</a><br>
 <a href="register.html" class="text-center">Register a new membership</a>
 </div>
+
+<script type="text/javascript">
+$(function(){
+	$(".btn-login").on("click",function(e){
+
+		e.preventDefault();
+
+		$("input[name='uid']").val();
+		$("input[name='upw']").val();
+		console.log('uid=> ',$("input[name='uid']").val());
+		console.log('upw=> ',$("input[name='upw']").val());
+		
+		$("#loginForm").submit();
+		
+	});
+	
+	$('input').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue',
+        increaseArea: '20%' // optional
+      });
+ 	});
+</script>
 </body>
 </html>
